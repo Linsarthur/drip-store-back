@@ -1,13 +1,13 @@
-const mysql = require("mysql2/promise")
+const mysql = require("mysql2/promise");
 
-async function executarSQL(comandoSql) {
+async function executarSQL(comandoSql){
     const conexao = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "admin",
-        port: "3306",
-        database: "drip_store"
-    })
+        password: "1234",
+        port: "3307",
+        database: "drip_store_db"
+    });
 
     const [result] = await conexao.query(comandoSql);
     conexao.end();
@@ -15,4 +15,4 @@ async function executarSQL(comandoSql) {
     return result;
 }
 
-module.exports = { executarSQL }
+module.exports = { executarSQL };
