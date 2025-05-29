@@ -1,11 +1,14 @@
 const { executarSQL } = require("../services/index.js");
+const { PrismaClient } = require("../generated/prisma")
+const prisma = new PrismaClient();
+
 
 async function buscarProdutos() {
-    return await executarSQL("SELECT * FROM produtos;");
+    return await prisma.produtos.findMany();
 }
 
 async function buscarUmProduto(id) {
-    return await executarSQL(`SELECT * FROM produtos WHERE produto_id = ${id};`);
+    return await prisma.produtos.findFirst(id);
 }
 
 async function criarProduto(dados) {
