@@ -4,9 +4,9 @@ async function executarSQL(comandoSql){
     const conexao = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "1234",
+        password: "admin",
         port: "3307",
-        database: "drip_store_db"
+        database: "digital_store_db"
     });
 
     const [result] = await conexao.query(comandoSql);
