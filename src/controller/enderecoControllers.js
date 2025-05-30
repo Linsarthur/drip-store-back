@@ -1,6 +1,6 @@
-const { executarSQL } = require("../services/index.js");
-const { PrismaClient } = require("../generated/prisma/index.js")
-const prisma = new PrismaClient();
+const { prisma } = require("../services");
+
+
 
 async function buscarEnderecos() {
     return await prisma.enderecos.findMany();
@@ -14,30 +14,16 @@ async function buscarUmEndereco(id) {
     })
 }
 
-async function criarEndereco(dados) {
+async function criarEndereco(data) {
     return await prisma.enderecos.create({
-        data: {
-            endereco_logradouro: dados.endereco_logradouro,
-            endereco_bairro: dados.endereco_bairro,
-            endereco_cidade: dados.endereco_cidade,
-            endereco_estado: dados.endereco_estado,
-            endereco_cep: dados.endereco_cep,
-
-        }
+        data
     })
 }
 
-async function editarEndereco(body, id) {
+async function editarEndereco(data, id) {
     return await prisma.enderecos.update({
         where: { endereco_id: Number(id) },
-        data: {
-            endereco_logradouro: body.endereco_logradouro,
-            endereco_bairro: body.endereco_bairro,
-            endereco_cidade: body.endereco_cidade,
-            endereco_estado: body.endereco_estado,
-            endereco_cep: body.endereco_cep,
-
-        }
+        data
     }
     )
 }

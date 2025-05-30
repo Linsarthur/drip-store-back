@@ -1,6 +1,4 @@
-const { executarSQL } = require("../services/index.js");
-const { PrismaClient } = require("../generated/prisma/index.js")
-const prisma = new PrismaClient();
+const { prisma } = require("../services");
 
 async function buscarCategorias() {
     return await prisma.categorias.findMany();
@@ -14,24 +12,16 @@ async function buscarUmaCategoria(id) {
     })
 }
 
-async function criarCategoria(dados) {
+async function criarCategoria(data) {
     return await prisma.categorias.create({
-        data: {
-            categoria_nome: dados.categoria_nome,
-
-
-        }
+        data
     })
 }
 
-async function editarCategoria(body, id) {
+async function editarCategoria(data, id) {
     return await prisma.categorias.update({
         where: { categoria_id: Number(id) },
-        data: {
-            categoria_nome: body.categoria_nome,
-
-
-        }
+        data
     }
     )
 }

@@ -1,6 +1,5 @@
-const { executarSQL } = require("../services/index.js");
-const { PrismaClient } = require("../generated/prisma/index.js")
-const prisma = new PrismaClient();
+const { prisma } = require("../services");
+
 
 async function buscarMarcas() {
     return await prisma.marcas.findMany();
@@ -14,31 +13,27 @@ async function buscarUmaMarca(id) {
     })
 }
 
-async function criarMarca(dados) {
+async function criarMarca(data) {
     return await prisma.marcas.create({
-        data: {
-            marca_nome: dados.marca_nome,
-
-
-        }
+        data
     })
 }
 
-async function editarMarca(body, id) {
+async function editarMarca(data, id) {
     return await prisma.marcas.update({
-        where: { marca_id: Number(id) },
-        data: {
-            marca_nome: body.marca_nome,
-
-
-        }
+        where: {
+            marca_id: Number(id)
+        },
+        data
     }
     )
 }
 
 async function deletarMarca(id) {
     return await prisma.marcas.delete({
-        where: { categoria_id: Number(id) }
+        where: {
+            categoria_id: Number(id)
+        }
     })
 }
 

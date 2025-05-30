@@ -1,43 +1,37 @@
-const { executarSQL } = require("../services/index.js");
-const { PrismaClient } = require("../generated/prisma")
-const prisma = new PrismaClient();
+const { prisma } = require("../services");
+
 
 async function buscarProdutos() {
-    return await prisma.produtos.findMany();
+    try {
+        return await prisma.produtos.findMany();
+    } catch (error) {
+        return {
+            tipo: "error",
+            mensagem: error.message
+        }
+    }
 }
 
 async function buscarUmProduto(id) {
-    return await prisma.produtos.findFirst({
-        where: {
-            produto_id: Number(id)
-        }
-    })
+    try {
+        return await prisma.produtos.findFirst({
+            where: {
+                produto_id: Number(id)
+            }
+        })
+    } catch (error) {
+
+    }
 }
 
-async function criarProduto(dados) {
-    return await prisma.produtos.create({
-        data: {
-            produto_nome: dados.produto_nome,
-            produto_preco: dados.produto_preco,
-            produto_desconto: dados.produto_desconto,
-            produto_imagem: dados.produto_imagem,
-            marca_id: dados.marca_id,
-            categoria_id: dados.categoria_id
-        }
-    })
+async function criarProduto(data) {
+    return await prisma.produtos.create({ data })
 }
 
-async function editarProduto(body, id) {
+async function editarProduto(data, id) {
     return await prisma.produtos.update({
         where: { produto_id: Number(id) },
-        data: {
-            produto_nome: body.produto_nome,
-            produto_preco: body.produto_preco,
-            produto_desconto: body.produto_desconto,
-            produto_imagem: body.produto_imagem,
-            marca_id: body.marca_id,
-            categoria_id: body.categoria_id
-        }
+        data
     }
     )
 }
