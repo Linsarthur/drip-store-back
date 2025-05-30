@@ -10,7 +10,7 @@ datasource db {
 
 model categorias {
   categoria_id   Int        @id @unique(map: "categoria_id") @default(autoincrement())
-  categoria_nome String     @db.VarChar(255)
+  categoria_nome String     @db.VarChar(50)
   produtos       produtos[]
 }
 
@@ -19,24 +19,15 @@ model enderecos {
   endereco_logradouro String     @db.VarChar(100)
   endereco_bairro     String     @db.VarChar(50)
   endereco_cidade     String     @db.VarChar(50)
+  endereco_estado     String     @db.VarChar(50)
   endereco_cep        String     @db.VarChar(10)
-  endereco_estado     String     @db.VarChar(255)
   usuarios            usuarios[]
 }
 
 model marcas {
   marca_id   Int        @id @unique(map: "marca_id") @default(autoincrement())
-  marca_nome String     @db.VarChar(255)
+  marca_nome String     @db.VarChar(50)
   produtos   produtos[]
-}
-
-model pagamentos {
-  pagamento_id        Int    @id @unique(map: "pagamento_id") @default(autoincrement())
-  pagamento_data      String @db.VarChar(20)
-  pagamento_valor     String @db.VarChar(255)
-  pagamento_forma     String @db.VarChar(50)
-  pagamento_descricao Bytes  @db.VarBinary(255)
-  pagamento_status    String @db.VarChar(50)
 }
 
 model produtos {
@@ -55,14 +46,14 @@ model produtos {
 }
 
 model usuarios {
-  usuario_id      Int       @id @unique(map: "usuario_id") @default(autoincrement())
-  usuario_nome    String    @db.VarChar(100)
-  usuario_senha   String    @db.VarChar(255)
-  usuario_email   String    @unique(map: "usuario_email") @db.VarChar(100)
-  usuario_celular String    @db.VarChar(20)
-  usuario_cpf     String    @db.VarChar(20)
-  endereco_id     Int
-  enderecos       enderecos @relation(fields: [endereco_id], references: [endereco_id], onUpdate: Restrict, map: "usuarios_fk6")
+  usuario_id       Int       @id @unique(map: "usuario_id") @default(autoincrement())
+  usuario_nome     String    @db.VarChar(100)
+  usuario_email    String    @unique(map: "usuario_email") @db.VarChar(100)
+  usuario_senha    String    @db.VarChar(255)
+  usuario_telefone String    @db.VarChar(20)
+  usuario_cpf      String    @db.VarChar(20)
+  endereco_id      Int
+  enderecos        enderecos @relation(fields: [endereco_id], references: [endereco_id], onUpdate: Restrict, map: "usuarios_fk6")
 
   @@index([endereco_id], map: "usuarios_fk6")
 }

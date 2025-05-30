@@ -1,3 +1,4 @@
+const { criarUsuario } = require("../controller/usuariosController.js");
 const { executarSQL } = require("../services/index.js");
 
 const router = require("express").Router();
@@ -11,7 +12,7 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    res.send(`Usuário criado`);
+    res.send(await criarUsuario(req.body));
 })
 
 router.put("/:id", async (req, res) => {
