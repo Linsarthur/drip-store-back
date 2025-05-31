@@ -14,18 +14,6 @@ model categorias {
   produtos       produtos[]
 }
 
-model enderecos {
-  endereco_id         Int      @id @unique(map: "endereco_id") @default(autoincrement())
-  endereco_logradouro String   @db.VarChar(100)
-  endereco_bairro     String   @db.VarChar(50)
-  endereco_cidade     String   @db.VarChar(50)
-  endereco_estado     String   @db.VarChar(50)
-  endereco_cep        String   @db.VarChar(10)
-  usuario_id          Int
-  usuarios            usuarios @relation(fields: [usuario_id], references: [usuario_id], onUpdate: Restrict, map: "usuarios_fk6")
-
-  @@index([usuario_id], map: "usuarios_fk6")
-}
 
 model marcas {
   marca_id   Int        @id @unique(map: "marca_id") @default(autoincrement())
@@ -56,4 +44,17 @@ model usuarios {
   usuario_telefone String      @db.VarChar(20)
   usuario_cpf      String      @db.VarChar(20)
   enderecos        enderecos[]
+}
+
+model enderecos {
+  endereco_id         Int      @id @unique(map: "endereco_id") @default(autoincrement())
+  endereco_logradouro String   @db.VarChar(100)
+  endereco_bairro     String   @db.VarChar(50)
+  endereco_cidade     String   @db.VarChar(50)
+  endereco_estado     String   @db.VarChar(50)
+  endereco_cep        String   @db.VarChar(10)
+  usuario_id          Int
+  usuarios            usuarios @relation(fields: [usuario_id], references: [usuario_id], onUpdate: Restrict, map: "usuarios_fk6")
+
+  @@index([usuario_id], map: "usuarios_fk6")
 }
