@@ -12,7 +12,7 @@ async function buscarUsuarios() {
 async function buscarUmUsuario(id) {
     return await prisma.usuarios.findFirst({
         where: {
-            Usuario_id: Number(id)
+            usuario_id: Number(id)
         }
     })
 }
@@ -33,6 +33,25 @@ async function criarUsuario(dados) {
     }
 }
 
+
+async function editarUsuario(id, dados) {
+    try {
+        const saltRounds = 10;
+        const senhaCriptografada = await bcrypt.hash(dados.usuario_senha, saltRounds)
+        return await prisma.usuarios.update({
+            where: { usuario_id: Number(id) },
+            data: {
+                ...dados,
+                usuario_senha: senhaCriptografada
+            }
+
+        }
+        )
+    } catch (error) {
+        return error.message
+    }
+}
+
 async function login(dados) {
     const { usuario_email, usuario_senha } = dados
     try {
@@ -41,42 +60,31 @@ async function login(dados) {
                 usuario_email,
             },
         });
-
-       
-
         if (!user) {
             return "Credenciais inválidas"
         }
-        const comparePassword = await bcrypt.compare(usuario_senha, user.usuario_senha);
-        
-
-        if (!comparePassword) {
+        const senhaComparada = await bcrypt.compare(usuario_senha, user.usuario_senha);
+        if (!senhaComparada) {
             return "Credenciais inválidas/senha"
         }
-
         const token = jwt.sign({ usuario_id: user.usuario_id }, process.env.JWT_SECRET, {
             expiresIn: "1h",
         });
-
-        return ({ token: token })
-
+        return {
+            tipe: "Success",
+            mensagem: "Usuário logado",
+            token
+        }
     } catch (error) {
         return error.message;
     }
 }
 
 
-async function editarUsuario(data, id) {
-    return await prisma.usuarios.update({
-        where: { Usuario_id: Number(id) },
-        data
-    }
-    )
-}
 
 async function deletarUsuario(id) {
     return await prisma.usuarios.delete({
-        where: { Usuario_id: Number(id) }
+        where: { usuario_id: Number(id) }
     })
 }
 

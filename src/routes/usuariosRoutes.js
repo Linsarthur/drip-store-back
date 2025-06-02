@@ -15,9 +15,7 @@ router.post("/", async (req, res) => {
     res.send(await criarUsuario(req.body));
 });
 
-router.post("/login", async (req, res) => {
-    res.send(await login(req.body))
-});
+
 
 router.put("/:id", async (req, res) => {
     res.send(await editarUsuario(req.params.id, req.body))

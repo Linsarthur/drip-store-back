@@ -7,13 +7,17 @@ const usuariosRoutes = require("./src/routes/usuariosRoutes.js")
 const produtosRoutes = require("./src/routes/produtosRoutes.js")
 const enderecosRoutes = require("./src/routes/enderecosRoutes.js")
 const categoriasRoutes = require("./src/routes/categoriasRoutes.js")
-const marcasRoutes = require("./src/routes/marcasRoutes.js")
+const marcasRoutes = require("./src/routes/marcasRoutes.js");
+const { login } = require("./src/controller/usuariosController.js");
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("olá mundo")
 });
+app.post("/login", async(req,res) => {
+    res.send(await login(req.body));    
+})
 
 app.use("/usuarios", usuariosRoutes)
 app.use("/produtos", produtosRoutes)
