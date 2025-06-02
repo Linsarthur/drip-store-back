@@ -9,18 +9,19 @@ const enderecosRoutes = require("./src/routes/enderecosRoutes.js")
 const categoriasRoutes = require("./src/routes/categoriasRoutes.js")
 const marcasRoutes = require("./src/routes/marcasRoutes.js");
 const { login } = require("./src/controller/usuariosController.js");
+const { verificarToken } = require("./src/utils/index.js");
 
 app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("olá mundo")
 });
-app.post("/login", async(req,res) => {
-    res.send(await login(req.body));    
+app.post("/login", async (req, res) => {
+    res.send(await login(req.body));
 })
 
-app.use("/usuarios", usuariosRoutes)
-app.use("/produtos", produtosRoutes)
+app.use("/usuarios", verificarToken, usuariosRoutes)
+app.use("/produtos", verificarToken, produtosRoutes)
 app.use("/enderecos", enderecosRoutes)
 app.use("/categorias", categoriasRoutes)
 app.use("/marcas", marcasRoutes)

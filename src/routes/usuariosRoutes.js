@@ -3,7 +3,7 @@ const { verificarToken } = require("../utils/index.js");
 
 const router = require("express").Router();
 
-router.get("/",verificarToken,  async (req, res) => {
+router.get("/",  async (req, res) => {
     res.send(await buscarUsuarios());
 });
 
