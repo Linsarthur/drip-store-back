@@ -34,26 +34,24 @@ async function criarUsuario(dados) {
 }
 
 async function login(dados) {
-    const { usuario_email, usuario_senha, usuario_id } = dados
+    const { usuario_email, usuario_senha } = dados
     try {
-        const user = await prisma.usuarios.findFirst({
+        const user = await prisma.usuarios.findUnique({
             where: {
                 usuario_email,
-
             },
         });
 
-        console.log(usuario_senha)
+       
 
         if (!user) {
             return "Credenciais inválidas"
         }
         const comparePassword = await bcrypt.compare(usuario_senha, user.usuario_senha);
-        console.log(comparePassword)
-        console.log(usuario_senha, user.usuario_senha)
+        
 
         if (!comparePassword) {
-            return "Credenciais inválidas"
+            return "Credenciais inválidas/senha"
         }
 
         const token = jwt.sign({ usuario_id: user.usuario_id }, process.env.JWT_SECRET, {
