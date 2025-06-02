@@ -2,7 +2,7 @@ const { executarSQL } = require("../services/index.js");
 const { PrismaClient } = require("../generated/prisma/index.js")
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken")
 
 
 async function buscarUsuarios() {
@@ -33,6 +33,40 @@ async function criarUsuario(dados) {
     }
 }
 
+async function login(dados) {
+    const { usuario_email, usuario_senha, usuario_id } = dados
+    try {
+        const user = await prisma.usuarios.findFirst({
+            where: {
+                usuario_email,
+
+            },
+        });
+
+        console.log(usuario_senha)
+
+        if (!user) {
+            return "Credenciais inválidas"
+        }
+        const comparePassword = await bcrypt.compare(usuario_senha, user.usuario_senha);
+        console.log(comparePassword)
+        console.log(usuario_senha, user.usuario_senha)
+
+        if (!comparePassword) {
+            return "Credenciais inválidas"
+        }
+
+        const token = jwt.sign({ usuario_id: user.usuario_id }, process.env.JWT_SECRET, {
+            expiresIn: "1h",
+        });
+
+        return ({ token: token })
+
+    } catch (error) {
+        return error.message;
+    }
+}
+
 
 async function editarUsuario(data, id) {
     return await prisma.usuarios.update({
@@ -48,4 +82,4 @@ async function deletarUsuario(id) {
     })
 }
 
-module.exports = { buscarUsuarios, buscarUmUsuario, criarUsuario, deletarUsuario, editarUsuario }
+module.exports = { buscarUsuarios, buscarUmUsuario, criarUsuario, deletarUsuario, editarUsuario, login }
