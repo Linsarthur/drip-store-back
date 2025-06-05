@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 8000;
-
+const cors = require("cors")
 
 const usuariosRoutes = require("./src/routes/usuariosRoutes.js")
 const produtosRoutes = require("./src/routes/produtosRoutes.js")
@@ -11,6 +11,7 @@ const marcasRoutes = require("./src/routes/marcasRoutes.js");
 const { login } = require("./src/controller/usuariosController.js");
 const { verificarToken } = require("./src/utils/index.js");
 
+app.use(cors())
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -21,7 +22,7 @@ app.post("/login", async (req, res) => {
 })
 
 app.use("/usuarios", verificarToken, usuariosRoutes)
-app.use("/produtos", verificarToken, produtosRoutes)
+app.use("/produtos", produtosRoutes)
 app.use("/enderecos", enderecosRoutes)
 app.use("/categorias", categoriasRoutes)
 app.use("/marcas", marcasRoutes)

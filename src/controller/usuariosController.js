@@ -73,7 +73,8 @@ async function login(dados) {
         return {
             tipe: "Success",
             mensagem: "Usuário logado",
-            token
+            token,
+            usuario: user
         }
     } catch (error) {
         return error.message;
