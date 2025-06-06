@@ -14,7 +14,6 @@ model categorias {
   produtos       produtos[]
 }
 
-
 model marcas {
   marca_id   Int        @id @unique(map: "marca_id") @default(autoincrement())
   marca_nome String     @db.VarChar(50)

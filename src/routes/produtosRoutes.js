@@ -11,15 +11,15 @@ router.get("/:id", async (req, res) => {
     res.send(await buscarUmProduto(req.params.id))
 })
 
-router.post("/", verificarToken, async (req, res) => {
+router.post("/", async (req, res) => {
     res.send(await criarProduto(req.body));
 })
 
-router.put("/:id", verificarToken, async (req, res) => {
+router.put("/:id", async (req, res) => {
     res.send(await editarProduto(req.body, req.params.id))
 })
 
-router.delete("/:id", verificarToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     res.send(await deletarProduto(req.params.id))
 })
 

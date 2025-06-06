@@ -32,7 +32,7 @@ async function editarMarca(data, id) {
 async function deletarMarca(id) {
     return await prisma.marcas.delete({
         where: {
-            categoria_id: Number(id)
+            marca_id: Number(id)
         }
     })
 }

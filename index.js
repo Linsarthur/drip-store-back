@@ -21,7 +21,7 @@ app.post("/login", async (req, res) => {
     res.send(await login(req.body));
 })
 
-app.use("/usuarios", verificarToken, usuariosRoutes)
+app.use("/usuarios", usuariosRoutes)
 app.use("/produtos", produtosRoutes)
 app.use("/enderecos", enderecosRoutes)
 app.use("/categorias", categoriasRoutes)
